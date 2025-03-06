@@ -1,0 +1,36 @@
+server:
+  port: 9090
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: otpapp
+
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+      password: ${REDIS_PASSWORD}
+      timeout: 60000
+
+  mail:
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+
+
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            trust: ${MAIL_HOST}
+
+twilio:
+  account_sid: ${TWILIO_ACCOUNT_SID}
+  auth_token: ${TWILIO_AUTH_TOKEN}
+  from_phone_number: ${TWILIO_FROM_PHONE}
