@@ -14,7 +14,7 @@ public class OtpService {
 
     public String generateOtp(String key) {
         String otp = String.valueOf(new Random().nextInt(900000) +100000);
-        redisTemplate.opsForValue().set(key, otp, 1, TimeUnit.MINUTES); // Luu OTP trong 1 phut
+        redisTemplate.opsForValue().set(key, otp, 15, TimeUnit.SECONDS); // Luu OTP trong 1 phut
 
         return otp;
     }

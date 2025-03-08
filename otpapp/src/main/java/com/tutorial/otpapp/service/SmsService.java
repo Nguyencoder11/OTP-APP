@@ -6,6 +6,7 @@ import com.twilio.type.PhoneNumber;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,6 +26,7 @@ public class SmsService {
         Twilio.init(accountSid, authToken);
     }
 
+    @Async
     public void sendSms(String phoneNumber, String message) {
         Message.creator(new PhoneNumber(phoneNumber), new PhoneNumber(fromPhoneNumber), message).create();
     }

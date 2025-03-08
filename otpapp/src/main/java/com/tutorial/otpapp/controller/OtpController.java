@@ -8,6 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/otp")
 @CrossOrigin(origins = "*")
@@ -22,15 +25,20 @@ public class OtpController {
     private SmsService smsService;
 
     @PostMapping("/send")
-    public ResponseEntity<String> sendOtp(@RequestParam String emailOrPhone) {
+    public ResponseEntity<Map<String, String>> sendOtp(@RequestParam String emailOrPhone) {
         String otp = otpService.generateOtp(emailOrPhone);
+
         if(emailOrPhone.contains("@")){
             emailService.sendEmail(emailOrPhone, "Your OTP Code", "Your OTP: " + otp);
         }else{
             smsService.sendSms(emailOrPhone, "Your OTP: " + otp);
         }
 
-        return ResponseEntity.ok("OTP sent successfully!");
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "OTP sent successfully!");
+        response.put("otp", otp);
+
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/verify")

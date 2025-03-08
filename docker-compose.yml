@@ -1,0 +1,41 @@
+
+services:
+  backend:
+    image: otp-app-backend
+    container_name: otp-app-backend-1
+    build:
+      context: ./otpapp
+      dockerfile: Dockerfile
+    ports:
+      - "9090:9090"
+    env_file:
+      - /otpapp/.env
+#    depends_on:
+#      - redis
+    networks:
+      - app-network
+
+
+  frontend:
+    image: otp-app-frontend
+    container_name: otp-app-frontend-1
+    build:
+      context: ./otp-app-ui
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+# ------ Loai bo cau hinh redis nay vi dang dung dich vu redis cloud
+# thay vi dung redis noi bo (cua Docker) -------
+#  redis:
+#    image: "redis:alpine"
+#    ports:
+#      - "6379:6379"
+
+networks:
+  app-network:
+    driver: bridge
